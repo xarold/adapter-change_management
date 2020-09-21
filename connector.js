@@ -27,9 +27,10 @@ class ServiceNowConnector {
   constructor(options) {
     this.options = options;
   }
-
-/**
-    * @function constructUri
+  
+    /**
+   * @memberof ServiceNowConnector
+   * @method  constructUri
     * @description Build and return the proper URI by appending an optionally passed
     *   [URL query string]{@link https://en.wikipedia.org/wiki/Query_string}.
     *
@@ -61,8 +62,9 @@ class ServiceNowConnector {
        && response.statusCode === 200;
     }
 
-/**
- * @function processRequestResults
+  /**
+   * @memberof ServiceNowConnector
+   * @method  processRequestResults
  * @description Inspect ServiceNow API response for an error, bad response code, or
  *   a hibernating instance. If any of those conditions are detected, return an error.
  *   Else return the API's response.
@@ -102,8 +104,9 @@ processRequestResults(error, response, body, callback) {
 }
 
 
-/**
- * @function sendRequest
+  /**
+   * @memberof ServiceNowConnector
+   * @method  sendRequest
  * @description Builds final options argument for request function
  *   from global const options and parameter callOptions.
  *   Executes request call, then verifies response.
@@ -144,7 +147,6 @@ sendRequest(callOptions, callback) {
   });
 }
 
-
   /**
    * @callback iapCallback
    * @description A [callback function]{@link
@@ -160,10 +162,9 @@ sendRequest(callOptions, callback) {
    */
 
 
-
-/**
- * @memberof ServiceNowConnector
- * @method  post
+  /**
+   * @memberof ServiceNowConnector
+   * @method  post
  * @description Call the ServiceNow POST API. Sets the API call's method,
  *   then calls sendRequest().
  *
@@ -174,9 +175,10 @@ sendRequest(callOptions, callback) {
  *   Will be HTML text if hibernating instance.
  * @param {error} callback.error - The error property of callback.
  */
- post(callOptions, callback) {
-  callOptions.method = 'POST';
-  this.sendRequest(callOptions, (results, error) => callback(results, error));
+ post(postCallOptions, callback) {
+ // let postCallOptions = { ...this.options }; 
+  postCallOptions.method = 'POST';
+  this.sendRequest(postCallOptions, (results, error) => callback(results, error));
 }
 
 
@@ -195,7 +197,7 @@ sendRequest(callOptions, callback) {
    * @param {error} callback.error - The error property of callback.
    */
   get(callback) {
-    let getCallOptions = { ...this.options };
+    let getCallOptions = { ...this.options }; 
     getCallOptions.method = 'GET';
     getCallOptions.query = 'sysparm_limit=1';
     this.sendRequest(getCallOptions, (results, error) => callback(results, error));
